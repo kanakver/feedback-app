@@ -5,14 +5,12 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 import Rating from '@mui/material/Rating';
+import Paper from '@mui/material/Paper';
 
 const Admin = () => {
   const [form, setForm] = useState({ username: '', password: '' });
@@ -102,44 +100,37 @@ const Admin = () => {
   }
 
   return (
-    <Box maxWidth={900} mx="auto" mt={4}>
+    <Box maxWidth={700} mx="auto" mt={4}>
       <Typography variant="h5" gutterBottom>Admin Dashboard</Typography>
       <Button variant="outlined" color="secondary" onClick={handleLogout} sx={{ mb: 2 }}>
         Logout
       </Button>
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      {dashboardData ? (
-        <>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Total Feedback: {dashboardData.totalFeedback}
-          </Typography>
-          <TableContainer component={Paper} sx={{ mb: 4 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Feedback</TableCell>
-                  <TableCell>Rating</TableCell>
-                  <TableCell>Date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dashboardData.latestFeedbacks.map((fb) => (
-                  <TableRow key={fb._id}>
-                    <TableCell>{fb.name || <em>Anonymous</em>}</TableCell>
-                    <TableCell>{fb.email || <em>-</em>}</TableCell>
-                    <TableCell>{fb.feedback}</TableCell>
-                    <TableCell><Rating value={fb.rating} readOnly size="small" /></TableCell>
-                    <TableCell>{new Date(fb.createdAt).toLocaleString()}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      ) : (
+      {!dashboardData ? (
         <Typography>Loading dashboard data...</Typography>
+      ) : (
+        <Paper elevation={2} sx={{ p: 3, mt: 2 }}>
+          <Typography variant="h6" gutterBottom>Total Feedback: {dashboardData.totalFeedback}</Typography>
+          <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>Latest Feedbacks</Typography>
+          <List>
+            {dashboardData.latestFeedbacks && dashboardData.latestFeedbacks.length > 0 ? (
+              dashboardData.latestFeedbacks.map((fb) => (
+                <React.Fragment key={fb._id || fb.id}>
+                  <ListItem alignItems="flex-start">
+                    <ListItemText
+                      primary={<><strong>{fb.name || 'Anonymous'}</strong> <Rating value={fb.rating} readOnly size="small" /></>}
+                      secondary={fb.feedback}
+                    />
+                  </ListItem>
+                  <Divider component="li" />
+                </React.Fragment>
+              ))
+            ) : (
+              <ListItem>
+                <ListItemText primary="No feedback yet." />
+              </ListItem>
+            )}
+          </List>
+        </Paper>
       )}
     </Box>
   );

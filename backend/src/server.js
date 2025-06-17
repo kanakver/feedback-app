@@ -10,9 +10,7 @@ const server = http.createServer(app);
 
 // CORS configuration
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:3000',
-  'https://feedback-app-v9i1.onrender.com',
-  'https://your-frontend-domain.vercel.app' // Replace with your actual Vercel domain
+  process.env.FRONTEND_URL || 'http://localhost:3000', "https://feedback-app-six-inky.vercel.app/"
 ];
 
 const corsOptions = {
