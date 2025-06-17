@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Admin = require('../models/Admin');
+const Feedback = require('../models/Feedback');
 
 // Admin login
 exports.login = async (req, res) => {
@@ -47,6 +48,17 @@ exports.createInitialAdmin = async (req, res) => {
     await admin.save();
 
     res.status(201).json({ message: 'Admin created successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Admin dashboard
+exports.dashboard = async (req, res) => {
+  try {
+    const totalFeedback = await Feedback.countDocuments();
+    const latestFeedbacks = await Feedback.find().sort({ createdAt: -1 }).limit(5);
+    res.json({ totalFeedback, latestFeedbacks });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
