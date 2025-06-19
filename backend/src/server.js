@@ -38,6 +38,12 @@ app.set('io', io);
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Allow requests from your frontend
+app.use(cors({
+  origin: 'http://localhost:3000', // or use '*' for all origins (not recommended for production)
+  credentials: true, // if you need to send cookies or auth headers
+}));
+
 // Database connection with options
 mongoose.connect(process.env.MONGODB_URI, {
   serverSelectionTimeoutMS: 5000,

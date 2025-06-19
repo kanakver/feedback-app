@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://feedback-app-v9i1.onrender.com',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
   },

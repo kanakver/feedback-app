@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -22,20 +22,37 @@ const theme = createTheme({
 });
 
 function App() {
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/feedback",
+        element: <Feedback />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
+      },
+      {
+        path: "*",
+        element: <div>404 - Page Not Found</div>,
+      },
+    ],
+    {
+      future: {
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      },
+    }
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <NavBar />
-        <Container sx={{ mt: 4 }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/feedback" element={<Feedback />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="*" element={<div>404 - Page Not Found</div>} />
-          </Routes>
-        </Container>
-      </Router>
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
