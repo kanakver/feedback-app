@@ -10,7 +10,8 @@ const server = http.createServer(app);
 
 // CORS configuration
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:3000', "https://feedback-app-six-inky.vercel.app/"
+  'http://localhost:3000',
+  'https://feedback-app-six-inky.vercel.app/'
 ];
 
 const corsOptions = {
